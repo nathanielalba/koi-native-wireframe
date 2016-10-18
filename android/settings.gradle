@@ -1,0 +1,3 @@
+rootProject.name = 'koiDemoNative'
+
+include ':app'
