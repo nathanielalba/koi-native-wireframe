@@ -1,30 +1,44 @@
 import React, { Component } from 'react';
-import { Navigator } from 'react-native';
+import { Navigator, View } from 'react-native';
+import { Provider } from 'react-redux';
 
+// for our store
+import configStore from './store/configStore';
 // our routes from navigator
-import routes from './routes';
+import { routes } from './routes';
 // here are the pages for the different routes
 import SplashPage from './components/SplashPage';
+import LocationPage from './components/LocationPage';
+import LocationsPage from './components/LocationsPage';
 
 export default class koiDemoNative extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   renderScene(route, navigator) {
-    if (route.name === 'splashPage') {
-      return (<SplashPage navigator={navigator} />);
+    switch (route.name) {
+      case 'splashPage':
+        // return (<SplashPage navigator={navigator} />);
+        return (<LocationPage navigator={navigator} />);
+      case 'locationPage':
+        return (<LocationPage navigator={navigator} />);
+      case 'locationsPage':
+        return (<LocationsPage navigator={navigator} />);
+      default:
+        return (<SplashPage navigator={navigator} />);
     }
   }
 
   render() {
     return (
-      <Navigator
-        style={{ flex: 1 }}
-        initialRoute={{ name: 'splashPage' }}
-        initialRouteStack={routes}
-        renderScene={this.renderScene}
-      />
+      <Provider store={configStore()} >
+        <View style={{ flex: 1 }}>
+          <Navigator
+            style={{ flex: 1 }}
+            initialRoute={routes[0]}
+            initialRouteStack={routes}
+            renderScene={this.renderScene}
+          />
+        </View>
+      </Provider>
     );
   }
 }
