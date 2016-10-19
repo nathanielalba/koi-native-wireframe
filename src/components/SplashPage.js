@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import Button from './common/Button';
+import NavigateTo from './common/NavigateTo';
+
 
 export default class SplashPage extends Component {
   constructor(props) {
@@ -25,9 +26,12 @@ export default class SplashPage extends Component {
           <Text>restaurant</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button onButtonPress={this.onButtonPress}>
+          <NavigateTo
+            location={'locationPage'}
+            navigator={this.props.navigator}
+          >
             <Text style={styles.buttonTextStyles}>FIND A TABLE</Text>
-          </Button>
+          </NavigateTo>
         </View>
       </View>
     );

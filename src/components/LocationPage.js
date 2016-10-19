@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions';
-import Button from './common/Button';
+import NavigateTo from './common/NavigateTo';
+
 
 class LocationPage extends Component {
   constructor(props) {
     super(props);
 
-    this.onButtonPress = this.onButtonPress.bind(this);
     this.getFormattedAddress = this.getFormattedAddress.bind(this);
+    this.navigate = this.navigate.bind(this);
   }
 
   componentDidMount() {
@@ -22,17 +23,18 @@ class LocationPage extends Component {
     });
   }
 
-  onButtonPress() {
-    this.props.navigator.push({
-      name: 'locationsPage'
-    });
-  }
-
   getFormattedAddress() {
     const { latitude, longitude } = this.props.location;
 
     this.props.getAddresses(latitude, longitude);
   }
+
+  navigate(route) {
+    this.props.navigator.push({
+      name: route
+    });
+  }
+
 
   render() {
     if (this.props.location.loading) {
@@ -48,16 +50,30 @@ class LocationPage extends Component {
     }
     return (
       <View style={styles.container}>
+        <View style={{ flex: 0.5 }} />
         <View style={[styles.headerContainer, styles.centeringStyles]}>
           <Text>It looks like our closest location to you is</Text>
         </View>
         <View style={[styles.bodyContainer, styles.centeringStyles]}>
-          <Text style={styles.mainContent}>{this.props.location.location}</Text>
+          <View style={styles.borderBottomMain}>
+            <Text style={[styles.mainContent, { marginBottom: 2 }]}>{this.props.location.location}</Text>
+          </View>
         </View>
         <View style={[styles.footerContainer, styles.centeringStyles]}>
-          <Button onButtonPress={this.onButtonPress}>
-            <Text>Check out our other locations</Text>
-          </Button>
+          <View style={styles.buttonBorderStyles}>
+            <NavigateTo
+              location={'restaurantDetails'}
+              navigator={this.props.navigator}
+            >
+              <Text style={[styles.buttonTextStyles, { padding: 8 }]}>PROCEED WITH LOCATION</Text>
+            </NavigateTo>
+          </View>
+            <NavigateTo
+              location={'locationsPage'}
+              navigator={this.props.navigator}
+            >
+              <Text style={{ fontSize: 12 }}>Check out our other locations</Text>
+            </NavigateTo>
         </View>
       </View>
     );
@@ -65,16 +81,31 @@ class LocationPage extends Component {
 }
 
 const styles = StyleSheet.create({
+  borderBottomMain: {
+    borderBottomColor: '#000',
+    borderBottomWidth: 1
+  },
+  buttonTextStyles: {
+    fontSize: 20,
+    fontWeight: '200',
+  },
+  buttonBorderStyles: {
+    borderWidth: 1,
+    borderColor: '#000',
+    marginBottom: 15
+  },
   mainContent: {
     fontSize: 40,
-    fontWeight: '200'
+    fontWeight: '200',
+    borderBottomWidth: 1,
+    borderBottomColor: '#000'
   },
   centeringStyles: {
     justifyContent: 'center',
     alignItems: 'center'
   },
   footerContainer: {
-    flex: 1
+    flex: 1.5
   },
   bodyContainer: {
     flex: 2
