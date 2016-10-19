@@ -10,7 +10,6 @@ class LocationPage extends Component {
     super(props);
 
     this.onButtonPress = this.onButtonPress.bind(this);
-    this.renderLocation = this.renderLocation.bind(this);
     this.getFormattedAddress = this.getFormattedAddress.bind(this);
   }
 
@@ -32,35 +31,28 @@ class LocationPage extends Component {
   getFormattedAddress() {
     const { latitude, longitude } = this.props.location;
 
-    this.props.getFormattedAddress(latitude, longitude);
-  }
-
-  renderLocation() {
-    const { loading } = this.props.location;
-    if (loading) {
-      return (
-        <ActivityIndicator
-          animating={loading}
-          style={{ height: 80 }}
-          size={'large'}
-        />
-      );
-    }
-    return (
-      <View>
-        <Text>Location</Text>
-      </View>
-    );
+    this.props.getAddresses(latitude, longitude);
   }
 
   render() {
+    if (this.props.location.loading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator
+            animating={this.props.location.loading}
+            style={{ height: 80 }}
+            size={'large'}
+          />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <View style={[styles.headerContainer, styles.centeringStyles]}>
           <Text>It looks like our closest location to you is</Text>
         </View>
         <View style={[styles.bodyContainer, styles.centeringStyles]}>
-          {this.renderLocation()}
+          <Text style={styles.mainContent}>{this.props.location.location}</Text>
         </View>
         <View style={[styles.footerContainer, styles.centeringStyles]}>
           <Button onButtonPress={this.onButtonPress}>
@@ -73,6 +65,10 @@ class LocationPage extends Component {
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    fontSize: 40,
+    fontWeight: '200'
+  },
   centeringStyles: {
     justifyContent: 'center',
     alignItems: 'center'
@@ -107,7 +103,7 @@ const mapDispatchToProps = (dispatch) => {
     setCoords: (latitude, longitude) => {
       dispatch(actions.setLatAndLong({ latitude, longitude }));
     },
-    getFormattedAddress: (latitude, longitude) => {
+    getAddresses: (latitude, longitude) => {
       dispatch(actions.fetchLocation(latitude, longitude));
     }
   };
