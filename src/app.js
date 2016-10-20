@@ -11,6 +11,7 @@ import SplashPage from './components/SplashPage';
 import LocationPage from './components/LocationPage';
 import LocationsPage from './components/LocationsListPage';
 import RestaurantPage from './components/RestaurantPage';
+import BookingTable from './components/BookingTable';
 
 export default class koiDemoNative extends Component {
 
@@ -18,14 +19,15 @@ export default class koiDemoNative extends Component {
     switch (route.name) {
       case 'splashPage':
         return (<SplashPage navigator={navigator} />);
-        // return (<LocationPage navigator={navigator} />);
-        // return (<RestaurantPage navigator={navigator} />);
+        // return (<BookingTable navigator={navigator} />);
       case 'locationPage':
         return (<LocationPage navigator={navigator} />);
       case 'locationsPage':
         return (<LocationsPage navigator={navigator} />);
       case 'restaurantDetails':
         return (<RestaurantPage navigator={navigator} />);
+      case 'bookingTable':
+        return (<BookingTable navigator={navigator} />);
       default:
         return (<SplashPage navigator={navigator} />);
     }

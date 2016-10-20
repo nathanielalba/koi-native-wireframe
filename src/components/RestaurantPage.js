@@ -23,7 +23,7 @@ class RestaurantPage extends Component {
         </View>
         <View style={styles.buttonContainer}>
           <View style={styles.buttonBorderStyles}>
-            <NavigateTo navigator={this.props.navigator} location={'splashPage'}>
+            <NavigateTo navigator={this.props.navigator} location={'bookingTable'}>
               <Text style={styles.buttonTextStyles}>FIND A TABLE</Text>
             </NavigateTo>
           </View>
