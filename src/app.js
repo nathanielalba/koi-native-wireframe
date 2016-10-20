@@ -20,6 +20,7 @@ export default class koiDemoNative extends Component {
       case 'splashPage':
         return (<SplashPage navigator={navigator} />);
         // return (<BookingTable navigator={navigator} />);
+        // return (<LocationPage navigator={navigator} />);
       case 'locationPage':
         return (<LocationPage navigator={navigator} />);
       case 'locationsPage':

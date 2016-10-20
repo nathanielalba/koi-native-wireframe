@@ -86,24 +86,31 @@ export const fetchLocation = (latitude, longitude) => {
     googleAPI(latitude, longitude, (data) => {
       const address = data.data.results[0].formatted_address;
       distanceMatrixAPI(address, latitude, longitude, (distanceData) => {
-        const results = distanceData.data.rows.shift().elements.shift();
-        if (results.status === 'ZERO_RESULTS') {
-          dispatch(setHomeAddress(address));
-        } else {
-          if (parseInt(results.distance.text, 10) <= 25) {
-            const restaurant = findNearestLocation(address);
-            const addressBuilder = {
-              address,
-              location: restaurant.name,
-              restAddress: `${restaurant.address} ${restaurant.city}, ${restaurant.city} ${restaurant.zipcode}`,
-              menu: restaurant.menu,
-              galleries: restaurant.galleries
-            };
-            // console.log(addressBuilder);
-            dispatch(setAddresses(addressBuilder));
-          } else {
+        if(distanceData) {
+          const results = distanceData.data.rows.shift().elements.shift();
+          if (results.status === 'ZERO_RESULTS' || null) {
             dispatch(setHomeAddress(address));
+          } else {
+            if (parseInt(results.distance.text, 10) <= 25) {
+              const restaurant = findNearestLocation(address);
+              if (restaurant) {
+                const addressBuilder = {
+                  address,
+                  location: restaurant.name,
+                  restAddress: `${restaurant.address} ${restaurant.city}, ${restaurant.city} ${restaurant.zipcode}`,
+                  menu: restaurant.menu,
+                  galleries: restaurant.galleries
+                };
+                // console.log(addressBuilder);
+                dispatch(setAddresses(addressBuilder));
+              }
+              dispatch(setHomeAddress(address));
+            } else {
+              dispatch(setHomeAddress(address));
+            }
           }
+        } else {
+          dispatch(setHomeAddress(address));
         }
       });
     });

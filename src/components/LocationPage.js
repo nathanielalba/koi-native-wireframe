@@ -48,6 +48,26 @@ class LocationPage extends Component {
         </View>
       );
     }
+    if (this.props.location.location === '' && !this.props.location.loading) {
+      return (
+        <View style={styles.container}>
+          <View style={{ flex: 1 }} />
+          <View style={styles.notFoundContent}>
+            <Text style={styles.notFoundContentText}>Sorry, we couldn't find a location near you</Text>
+            <Text>follow the link below to find our locations</Text>
+          </View>
+          <View style={styles.notFoundButton}>
+            <NavigateTo
+              location={'locationsPage'}
+              navigator={this.props.navigator}
+            >
+              <Text style={styles.notFoundButtonText}>OTHER LOCATIONS</Text>
+            </NavigateTo>
+          </View>
+          <View style={{ flex: 1 }} />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <View style={{ flex: 0.5 }} />
@@ -81,6 +101,28 @@ class LocationPage extends Component {
 }
 
 const styles = StyleSheet.create({
+  notFoundButtonText: {
+    fontSize: 16,
+    fontWeight: '100'
+  },
+  notFoundContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 2,
+    padding: 8
+  },
+  notFoundContentText: {
+    fontSize: 18,
+    fontWeight: '200'
+  },
+  notFoundButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 8,
+    borderColor: '#cb3f28',
+    borderWidth: 1,
+    padding: 8
+  },
   borderBottomMain: {
     borderBottomColor: '#000',
     borderBottomWidth: 1

@@ -27,12 +27,10 @@ export const findNearestLocation = (address) => {
 
 export const distanceMatrixAPI = (address, latitude, longitude, callback) => {
   const closestRestaurantAddress = findNearestLocation(address);
-
   if (closestRestaurantAddress) {
     const API_PARAMS = `&origins=${address}|${latitude},${longitude}&destinations=${closestRestaurantAddress.address}`;
     const API_URL = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&key=${API_KEY}${API_PARAMS}`;
     const FORMATTED_API_URL = API_URL.replace(/ /g, '+');
-
     axios.get(FORMATTED_API_URL)
       .then((response) => {
         if (callback) { callback(response); }
@@ -40,5 +38,7 @@ export const distanceMatrixAPI = (address, latitude, longitude, callback) => {
       .catch((err) => {
         console.error(err);
       });
+  } else {
+    callback(null);
   }
 };
