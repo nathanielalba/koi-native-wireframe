@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ListView } from 'react-native';
 
 import RestaurantListDetail from './RestaurantListDetail';
 import restaurantLocations from '../lib/restaurantLocations';
 
 export default class Locations extends Component {
-  constructor(props) {
-    super(props);
-    this.renderList = this.renderList.bind(this);
+  componentWillMount() {
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
+    this.dataSource = ds.cloneWithRows(restaurantLocations);
   }
 
-  renderList() {
-    return restaurantLocations.map(location => {
-      return (<RestaurantListDetail location={location} key={location.city} />);
-    });
+  renderRow(restaurant) {
+    return (<RestaurantListDetail restaurant={restaurant} />);
   }
 
   render() {
     return (
-      <ScrollView style={{ marginTop: 20 }}>
-        {this.renderList()}
-      </ScrollView>
+      <ListView
+        dataSource={this.dataSource}
+        renderRow={this.renderRow}
+      />
     );
   }
 }

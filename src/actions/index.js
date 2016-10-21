@@ -1,5 +1,12 @@
 import { googleAPI, distanceMatrixAPI, findNearestLocation } from '../lib/googleGeolocationAPI';
 
+export const selectRestaurant = (restaurantId) => {
+  return {
+    type: 'select_library',
+    payload: restaurantId
+  };
+};
+
 export const getLatAndLong = () => {
   return {
     type: 'get_lat_and_long'

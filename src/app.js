@@ -18,9 +18,9 @@ export default class koiDemoNative extends Component {
   renderScene(route, navigator) {
     switch (route.name) {
       case 'splashPage':
-        return (<SplashPage navigator={navigator} />);
-        // return (<BookingTable navigator={navigator} />);
-        // return (<LocationPage navigator={navigator} />);
+        // return (<SplashPage navigator={navigator} />);
+        return (<BookingTable navigator={navigator} />);
+        // return (<LocationsPage navigator={navigator} />);
       case 'locationPage':
         return (<LocationPage navigator={navigator} />);
       case 'locationsPage':
